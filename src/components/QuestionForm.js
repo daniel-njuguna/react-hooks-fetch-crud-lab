@@ -10,18 +10,44 @@ function QuestionForm(props) {
     correctIndex: 0,
   });
 
+  //let answersArray = [];
+
+  
+
   function handleChange(event) {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
+    
+      //if (event.target.name !== formData.prompt && event.target.name !== formData.correctIndex) {
+        //answersArray.push(event.target.name)
+      //}
+    
     });
+  
+  
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     console.log(formData);
-  }
+    console.log(formData.prompt)
 
+    console.log([formData.answer1, formData.answer2])
+
+    fetch("http://localhost:4000/questions",{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+  },
+    
+ body: JSON.stringify({
+    prompt: formData.prompt,
+    answers: [formData.answer1, formData.answer2, formData.answer3, formData.answer4],
+    correctIndex: parseInt(formData.correctIndex)
+  })
+    })
+  }
   return (
     <section>
       <h1>New Question</h1>
